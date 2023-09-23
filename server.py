@@ -29,6 +29,7 @@ class GameServicer(game_pb2_grpc.GameServicer):
             y=request.y
             speed=request.speed
             context=context
+            print(request.id)
             self.soldiers.append([id,(x,y),speed,context])
            
 
@@ -40,9 +41,11 @@ class GameServicer(game_pb2_grpc.GameServicer):
     
 
     def missile_approaching(self, request, context):
+
         for i in self.soldiers:
             stub=game_pb2_grpc.GameServiceStub(i[3])
-            missile_info=game_pb2.missile_info(x=request.x,y=request.y,time=request.t,type=request.m_type)
+            missile_info=game_pb2.missile_info(m_id=request.m_id,x=request.x,y=request.y,time=request.t,m_type=request.m_type)
+            print(missile_info.id,missile_info,m_type)
             i[3].write(missile_info)
             #stub.missile_approaching(missile_info)
 
