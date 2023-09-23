@@ -178,11 +178,35 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,lock):
 
             
             # write code to increase time and check whether game lost or won
+            time += t
+            time.sleep(1)
+
 
 
 
         else:
-            pass
+            # missile_info_recieved.id = stub.missile_approaching(missile_info)
+            previous = 0
+            while previous == missile_info_recieved.id:
+                missile_info_recieved.id = stub.missile_approaching(missile_info)
+            
+            if soldier.in_danger(all_missile_affected_coord):
+                soldier.take_shelter(all_missile_affected_coord)
+            else:
+                soldier.move(all_missile_affected_coord)
+
+            status_query = ""
+            #status_query=stub.status(status)
+            while status_query=="":
+                status_query=stub.status(status)
+            
+            life_status=commander.check_alive_or_not(all_missile_affected_coord,lock)
+            hit_info=game_pb2.hit_info(id=commander.soldier_id,flag=life_status)
+            stub.was_hit(hit_info)    
+            status_query=" "
+            alive_soldiers_values=stub.get_alive_soldier()    
+
+
 
 if __name__=="__main__":
     speed=[]
