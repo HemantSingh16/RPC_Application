@@ -10,7 +10,7 @@ class GameServicer(game_pb2_grpc.GameServicer):
         super().__init__()
         self.soldiers=[]
 
-    def Join_Battlefield(self, request, context):
+    '''def Join_Battlefield():
         print("Join Battlefield Request made")
         with lock:
             id=request.id
@@ -21,8 +21,18 @@ class GameServicer(game_pb2_grpc.GameServicer):
             self.soldiers.append([id,(x,y),speed,channel])
             print(f'Soldier id {request.id} joined the battlefield successfully')
         
-        return request
-    
+        return request'''
+    def Join_Battlefield(self, request_iterator, context):
+        for request in request_iterator:
+            id=request.id
+            x=request.x
+            y=request.y
+            speed=request.speed
+            context=context
+            self.soldiers.append([id,(x,y),speed,context])
+           
+
+
     def DisconnectClient(self, request, context):
         # When a client disconnects, remove them from the list
         id = request.client_id
@@ -33,7 +43,9 @@ class GameServicer(game_pb2_grpc.GameServicer):
         for i in self.soldiers:
             stub=game_pb2_grpc.GameServiceStub(i[3])
             missile_info=game_pb2.missile_info(x=request.x,y=request.y,time=request.t,type=request.m_type)
-            stub.missile_approaching(missile_info)
+            i[3].write(missile_info)
+            #stub.missile_approaching(missile_info)
+
         
 
 

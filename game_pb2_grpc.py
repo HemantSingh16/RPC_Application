@@ -14,10 +14,10 @@ class GameStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Join_Battlefield = channel.unary_unary(
+        self.Join_Battlefield = channel.stream_stream(
                 '/game.Game/Join_Battlefield',
                 request_serializer=game__pb2.soldier_info.SerializeToString,
-                response_deserializer=game__pb2.soldier_info.FromString,
+                response_deserializer=game__pb2.missile_info.FromString,
                 )
         self.missile_approaching = channel.unary_unary(
                 '/game.Game/missile_approaching',
@@ -44,7 +44,7 @@ class GameStub(object):
 class GameServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def Join_Battlefield(self, request, context):
+    def Join_Battlefield(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -77,10 +77,10 @@ class GameServicer(object):
 
 def add_GameServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Join_Battlefield': grpc.unary_unary_rpc_method_handler(
+            'Join_Battlefield': grpc.stream_stream_rpc_method_handler(
                     servicer.Join_Battlefield,
                     request_deserializer=game__pb2.soldier_info.FromString,
-                    response_serializer=game__pb2.soldier_info.SerializeToString,
+                    response_serializer=game__pb2.missile_info.SerializeToString,
             ),
             'missile_approaching': grpc.unary_unary_rpc_method_handler(
                     servicer.missile_approaching,
@@ -113,7 +113,7 @@ class Game(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Join_Battlefield(request,
+    def Join_Battlefield(request_iterator,
             target,
             options=(),
             channel_credentials=None,
@@ -123,9 +123,9 @@ class Game(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/game.Game/Join_Battlefield',
+        return grpc.experimental.stream_stream(request_iterator, target, '/game.Game/Join_Battlefield',
             game__pb2.soldier_info.SerializeToString,
-            game__pb2.soldier_info.FromString,
+            game__pb2.missile_info.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

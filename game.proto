@@ -4,9 +4,9 @@ package game;
 
 service Game{
 
-    rpc Join_Battlefield(soldier_info) returns (soldier_info);
+    rpc Join_Battlefield(stream soldier_info) returns (stream missile_info);
 
-    rpc missile_approaching(missile_info) returns ();
+    rpc missile_approaching(missile_info) returns (missile_info);
 
     rpc status_all(status) returns (status);
 

@@ -119,7 +119,7 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,lock):
     # joining battle field
 
     soldier_info=game_pb2.soldier_info(id=soldier_id,x=x_coord,y=y_coord,speed=speed)
-    soldier_info_recieved=stub.Join_Battlefield(soldier_info)
+    soldier_info_recieved=stub.Join_Battlefield(iter([soldier_info]))
     print(f'Soldier {soldier_info_recieved.id} joined the battlefield')
 
     if is_commander:
