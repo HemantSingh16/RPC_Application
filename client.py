@@ -116,12 +116,17 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,lock):
     
     time=0
 
+    # joining battle field
+
+    soldier_info=game_pb2.soldier_info(id=soldier_id,x=x_coord,y=y_coord,speed=speed)
+    soldier_info_recieved=stub.Join_Battlefield(soldier_info)
+    print(f'Soldier {soldier_info_recieved.id} joined the battlefield')
+
     if is_commander:
         commander = Commander(soldier_id,x_coord,y_coord,speed,True)
         is_commander_alive=True
     else:
         soldier = Soldier(soldier_id,x_coord,y_coord,speed)
-        soldier.move()
 
     while(count_of_processes!=M):
         pass
@@ -135,12 +140,13 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,lock):
 
     while time<T and is_commander_alive:
         if commander.is_promoted:
-            x,y,type=commander.genereate_missile_coordinates_and_type()
-            missile_info=game_pb2.missile_info(x=x,y=y,time=t,type=type)
+            x,y,m_type=commander.genereate_missile_coordinates_and_type()
+            missile_info=game_pb2.missile_info(x=x,y=y,time=t,m_type=m_type)
             missile_info_recieved=stub.missile_approaching(missile_info)
             missile_x=missile_info_recieved.x
             missile_y=missile_info_recieved.y
-            missile_type=missile_info_recieved.type
+            missile_type=missile_info_recieved.m_type
+            print(f'Successfully got missile info from commander where missile type = {missile_type}')
             all_missile_affected_coord=[(x,y) for x in range(max(0, missile_x - missile_type), min(N-1, missile_x+missile_type)) for y in range(max(0, missile_y - missile_type), min(N-1, missile_y+ missile_type))]
 
 
@@ -155,7 +161,7 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,lock):
 
 
             status=game_pb2.status(query="Give your status")
-            status_query=stub.status(status)
+            status_query=stub.status_all(status)
             if status_query=="Give me your status":
                 life_status=commander.check_alive_or_not(all_missile_affected_coord,lock)
                 hit_info=game_pb2.hit_info(id=commander.soldier_id,flag=life_status)

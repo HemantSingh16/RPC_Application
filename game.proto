@@ -4,9 +4,11 @@ package game;
 
 service Game{
 
-    rpc missile_approaching(missile_info) returns (missile_info);
+    rpc Join_Battlefield(soldier_info) returns (soldier_info);
 
-    rpc status(status) returns (status);
+    rpc missile_approaching(missile_info) returns ();
+
+    rpc status_all(status) returns (status);
 
     rpc was_hit(hit_info) returns (void);
 
@@ -17,11 +19,19 @@ service Game{
 
 message void{}
 
+message soldier_info{
+    int32 id=1;
+    int32 x=2;
+    int32 y=3;
+    int32 speed=4;
+
+}
+
 message missile_info{
     int32 x=1;
     int32 y=2;
     int32 time=3;
-    string type=4;
+    string m_type=4;
 
 }
 
