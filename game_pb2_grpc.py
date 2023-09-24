@@ -17,7 +17,7 @@ class GameStub(object):
         self.Join_Battlefield = channel.stream_stream(
                 '/game.Game/Join_Battlefield',
                 request_serializer=game__pb2.soldier_info.SerializeToString,
-                response_deserializer=game__pb2.missile_info.FromString,
+                response_deserializer=game__pb2.missile.FromString,
                 )
         self.missile_approaching = channel.unary_unary(
                 '/game.Game/missile_approaching',
@@ -80,7 +80,7 @@ def add_GameServicer_to_server(servicer, server):
             'Join_Battlefield': grpc.stream_stream_rpc_method_handler(
                     servicer.Join_Battlefield,
                     request_deserializer=game__pb2.soldier_info.FromString,
-                    response_serializer=game__pb2.missile_info.SerializeToString,
+                    response_serializer=game__pb2.missile.SerializeToString,
             ),
             'missile_approaching': grpc.unary_unary_rpc_method_handler(
                     servicer.missile_approaching,
@@ -125,7 +125,7 @@ class Game(object):
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/game.Game/Join_Battlefield',
             game__pb2.soldier_info.SerializeToString,
-            game__pb2.missile_info.FromString,
+            game__pb2.missile.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

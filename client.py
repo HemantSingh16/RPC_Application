@@ -12,8 +12,8 @@ class Soldier:
         self.y_coord=y_coord
         self.soldier_speed=speed
         self.is_commander = is_commander
-    
-
+        
+        
     def in_danger(self,all_missile_affected_coord):
         current_location=(self.x_coord,self.y_coord)
         if current_location in all_missile_affected_coord:
@@ -92,16 +92,16 @@ class Commander(Soldier):
 
 def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_processes,M,lock):
     
-
     channel=grpc.insecure_channel('localhost:50051')
-    stub=game_pb2_grpc.GameStub(channel)
+    stub = game_pb2_grpc.GameStub(channel)
+    ##missile_stream = stub.missile_approaching(game_pb2.missile_info.())
 
     with lock:
         count_of_processes.value += 1
         print(f'Count of process is {count_of_processes.value}')
     
     time=0
-
+    
     # joining battle field
 
     soldier_info=game_pb2.soldier_info(id=soldier_id,x=x_coord,y=y_coord,speed=speed)
@@ -109,14 +109,13 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_proc
     print(f'Soldier {soldier_id} joined the battlefield')
 
     if is_commander:
-        soldier = Commander(soldier_id,x_coord,y_coord,speed,True,is_commander)
+        soldier = Commander(soldier_id,x_coord,y_coord,speed,is_commander)
         print(f'commander is {soldier_id}')
         #is_commander_alive=True
     else:
         soldier = Soldier(soldier_id,x_coord,y_coord,speed,is_commander)
-
-    while(count_of_processes.value!=M):
-        pass
+    
+    
 
     
     '''is_alive=[]
@@ -125,12 +124,18 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_proc
         is_alive.append(i)'''
     is_commander_alive=True
     missile_id=0
+
+    while(count_of_processes.value <= M):
+        if count_of_processes.value==M:
+            break
     while time<T:
         print("Game started")
         if soldier.is_commander:
-            x,y,m_type=commander.genereate_missile_coordinates_and_type(N)
+            x,y,m_type=soldier.genereate_missile_coordinates_and_type(N)
             missile_id +=1
+            print(type(missile_id),type(x), type(y),type(t), type(m_type))
             missile_info=game_pb2.missile_info(m_id=missile_id,x=x,y=y,time=t,m_type=m_type)
+            
             missile_info_recieved=stub.missile_approaching(missile_info)
             missile_x=missile_info_recieved.x
             missile_y=missile_info_recieved.y
@@ -174,14 +179,21 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_proc
         else:
             print("Inside Soldier")
             previous = 0
-            while previous ==  0 or previous == join_response.m_id :
+            #start
+            for missile_info in join_response:
+                missile_x = join_response.x
+                missile_y = join_response.y
+                missile_type = join_response.m_type
+                print(f'Recieved missile coordinates {missile_x} , {missile_y} for soldier id {soldier.soldier_id}')
+           
+
+
+            #end
+            '''while previous ==  0 or previous == join_response.m_id :
                 #current= join_response.id 
-                previous = join_response.m_id
+                previous = join_response.m_id'''
             
-            missile_x=join_response.x
-            missile_y=join_response.y
-            missile_type=join_response.m_type
-            print(f'Recieved missile coordinates {x} , {y} for soldier id {soldier.soldier_id}')
+            
 
             all_missile_affected_coord=[(x,y) for x in range(max(0, missile_x - missile_type), min(N-1, missile_x+missile_type)) for y in range(max(0, missile_y - missile_type), min(N-1, missile_y+ missile_type))]
             

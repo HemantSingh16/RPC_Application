@@ -4,7 +4,7 @@ package game;
 
 service Game{
 
-    rpc Join_Battlefield(stream soldier_info) returns (stream missile_info);
+    rpc Join_Battlefield(stream soldier_info) returns (stream missile);
 
     rpc missile_approaching(missile_info) returns (missile_info);
 
@@ -32,10 +32,18 @@ message missile_info{
     int32 x=2;
     int32 y=3;
     int32 time=4;
-    string m_type=5;
+    int32 m_type=5;
 
 }
 
+message missile{
+    int32 m_id=1;
+    int32 x=2;
+    int32 y=3;
+    int32 time=4;
+    string m_type=5;
+
+}
 
 message status{
     string query=1;
