@@ -41,10 +41,7 @@ class Soldier:
             (x,y)=random.choice(possible_move)
         self.x_coord=x
         self.y_coord=y
-
-        
-        
-        
+       
     def take_shelter(self,all_missile_affected_coord):
         possible_move=[]
         #all_possible_moves=[(x,y) for x in range(max(0, self.x_coord - self.soldier_speed), min(N-1, self.x_coord+self.soldier_speed)) for y in range(max(0, self.y_coord - self.soldier_speed), min(N-1, self.y_coord+self.soldier_speed))]
@@ -67,19 +64,12 @@ class Soldier:
         self.x_coord=x
         self.y_coord=y
 
-
-
-    
-        
-
     def check_alive_or_not(self,all_missile_affected_coord,q,lock):
         current_position=(self.x_coord,self.y_coord)
         if current_position in all_missile_affected_coord:
             return True
         else:
             return False
-
-
 
 class Commander(Soldier):
     def __init__(self, id, x_coord, y_coord, speed,is_promoted):
@@ -100,11 +90,6 @@ class Commander(Soldier):
     def printLayout():
         pass
 
-
-
-
-
-
 def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_processes,M,lock):
     
 
@@ -124,7 +109,7 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_proc
     print(f'Soldier {soldier_id} joined the battlefield')
 
     if is_commander:
-        commander = Commander(soldier_id,x_coord,y_coord,speed)
+        commander = Commander(soldier_id,x_coord,y_coord,speed,True)
         print(f'commander is {soldier_id}')
         is_commander_alive=True
     else:
@@ -161,9 +146,6 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_proc
             else:
                 commander.move(all_missile_affected_coord)
                 
-            
-
-
             status=game_pb2.status(query="Give your status")
             status_query=stub.status_all(status)
             if status_query=="Give me your status":
@@ -189,10 +171,6 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_proc
             
             # write code to increase time and check whether game lost or won
             
-
-
-
-
         else:
             print("Inside Soldier")
             previous = 0
