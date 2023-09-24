@@ -45,17 +45,12 @@ class GameServicer(game_pb2_grpc.GameServicer):
         for i in self.soldiers:
             stub=game_pb2_grpc.GameServiceStub(i[3])
             missile_info=game_pb2.missile_info(m_id=request.m_id,x=request.x,y=request.y,time=request.t,m_type=request.m_type)
+            print(f'The missile id is {missile_info.m_id} and missile type is {missile_info.m_type}')
             print(missile_info.m_id,missile_info,m_type)
             i[3].write(missile_info)
             #stub.missile_approaching(missile_info)
 
         
-
-
-
-    
-
-
 def run():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     game_pb2_grpc.add_GameServicer_to_server(GameServicer(), server)
