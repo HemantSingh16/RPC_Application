@@ -37,7 +37,7 @@ class GameStub(object):
         self.get_alive_soldier = channel.unary_unary(
                 '/game.Game/get_alive_soldier',
                 request_serializer=game__pb2.void.SerializeToString,
-                response_deserializer=game__pb2.Alive_solier_values.FromString,
+                response_deserializer=game__pb2.Alive_soldier_values.FromString,
                 )
 
 
@@ -100,7 +100,7 @@ def add_GameServicer_to_server(servicer, server):
             'get_alive_soldier': grpc.unary_unary_rpc_method_handler(
                     servicer.get_alive_soldier,
                     request_deserializer=game__pb2.void.FromString,
-                    response_serializer=game__pb2.Alive_solier_values.SerializeToString,
+                    response_serializer=game__pb2.Alive_soldier_values.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -193,6 +193,6 @@ class Game(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/game.Game/get_alive_soldier',
             game__pb2.void.SerializeToString,
-            game__pb2.Alive_solier_values.FromString,
+            game__pb2.Alive_soldier_values.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

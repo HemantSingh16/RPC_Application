@@ -12,7 +12,7 @@ service Game{
 
     rpc was_hit(hit_info) returns (void);
 
-    rpc get_alive_soldier(void) returns (Alive_solier_values);
+    rpc get_alive_soldier(void) returns (Alive_soldier_values);
 
 
 }
@@ -59,7 +59,7 @@ message soldier_id_pos{
 }
 
 
-message Alive_solier_values{
+message Alive_soldier_values{
     repeated soldier_id_pos values=1;
 }
 

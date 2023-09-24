@@ -6,12 +6,12 @@ import time
 import random
 
 class Soldier:
-    def __init__(self,id,x_coord,y_coord,speed,is_promoted):
+    def __init__(self,id,x_coord,y_coord,speed,is_commander):
         self.soldier_id=id
         self.x_coord=x_coord
         self.y_coord=y_coord
         self.soldier_speed=speed
-        self.is_promoted = is_promoted
+        self.is_commander = is_commander
     
 
     def in_danger(self,all_missile_affected_coord):
@@ -124,11 +124,11 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_proc
     print(f'Soldier {soldier_id} joined the battlefield')
 
     if is_commander:
-        commander = Commander(soldier_id,x_coord,y_coord,speed)
+        soldier = Commander(soldier_id,x_coord,y_coord,speed,is_commander)
         print(f'commander is {soldier_id}')
-        is_commander_alive=True
+        #is_commander_alive=True
     else:
-        soldier = Soldier(soldier_id,x_coord,y_coord,speed,False)
+        soldier = Soldier(soldier_id,x_coord,y_coord,speed,is_commander)
 
     while(count_of_processes.value!=M):
         pass
@@ -140,18 +140,18 @@ def run_client(soldier_id,is_commander,x_coord,y_coord,speed,N,T,t,count_of_proc
         is_alive.append(i)'''
     is_commander_alive=True
     missile_id=0
-    while time<T and is_commander_alive:
+    while time<T:
         print("Game started")
-        if soldier.is_promoted:
+        if soldier.is_commander:
             x,y,m_type=commander.genereate_missile_coordinates_and_type(N)
-            missile_id+=1
+            missile_id +=1
             missile_info=game_pb2.missile_info(m_id=missile_id,x=x,y=y,time=t,m_type=m_type)
             missile_info_recieved=stub.missile_approaching(missile_info)
             missile_x=missile_info_recieved.x
             missile_y=missile_info_recieved.y
             missile_type=missile_info_recieved.m_type
             print(f'Successfully got missile info from commander where missile type = {missile_type}')
-            all_missile_affected_coord=[(x,y) for x in range(max(0, missile_x - missile_type), min(N-1, missile_x+missile_type)) for y in range(max(0, missile_y - missile_type), min(N-1, missile_y+ missile_type))]
+            all_missile_affected_coord=[(x,y) for x in range(max(0, missile_x - missile_type), min(N-1, missile_x + missile_type)) for y in range(max(0, missile_y - missile_type), min(N-1, missile_y + missile_type))]
 
 
             if commander.in_danger(all_missile_affected_coord):
