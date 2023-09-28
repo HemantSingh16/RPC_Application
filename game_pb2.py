@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ngame.proto\x12\x04game\"\x06\n\x04void\"?\n\x0csoldier_info\x12\n\n\x02id\x18\x01 \x01(\x05\x12\t\n\x01x\x18\x02 \x01(\x05\x12\t\n\x01y\x18\x03 \x01(\x05\x12\r\n\x05speed\x18\x04 \x01(\x05\"P\n\x0cmissile_info\x12\x0c\n\x04m_id\x18\x01 \x01(\x05\x12\t\n\x01x\x18\x02 \x01(\x05\x12\t\n\x01y\x18\x03 \x01(\x05\x12\x0c\n\x04time\x18\x04 \x01(\x05\x12\x0e\n\x06m_type\x18\x05 \x01(\x05\"K\n\x07missile\x12\x0c\n\x04m_id\x18\x01 \x01(\x05\x12\t\n\x01x\x18\x02 \x01(\x05\x12\t\n\x01y\x18\x03 \x01(\x05\x12\x0c\n\x04time\x18\x04 \x01(\x05\x12\x0e\n\x06m_type\x18\x05 \x01(\t\"\x17\n\x06status\x12\r\n\x05query\x18\x01 \x01(\t\"$\n\x08hit_info\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04\x66lag\x18\x02 \x01(\x08\"-\n\tpositions\x12\x0f\n\x07x_value\x18\x01 \x01(\x05\x12\x0f\n\x07y_value\x18\x02 \x01(\x05\"I\n\x0esoldier_id_pos\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x1c\n\x03pos\x18\x02 \x01(\x0b\x32\x0f.game.positions\x12\r\n\x05speed\x18\x03 \x01(\x05\"<\n\x14\x41live_soldier_values\x12$\n\x06values\x18\x01 \x03(\x0b\x32\x14.game.soldier_id_pos2\x8e\x02\n\x04Game\x12\x39\n\x10Join_Battlefield\x12\x12.game.soldier_info\x1a\r.game.missile(\x01\x30\x01\x12=\n\x13missile_approaching\x12\x12.game.missile_info\x1a\x12.game.missile_info\x12(\n\nstatus_all\x12\x0c.game.status\x1a\x0c.game.status\x12%\n\x07was_hit\x12\x0e.game.hit_info\x1a\n.game.void\x12;\n\x11get_alive_soldier\x12\n.game.void\x1a\x1a.game.Alive_soldier_valuesb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ngame.proto\x12\x04game\"\x06\n\x04void\"U\n\x0csoldier_info\x12\n\n\x02id\x18\x01 \x01(\x05\x12\t\n\x01x\x18\x02 \x01(\x05\x12\t\n\x01y\x18\x03 \x01(\x05\x12\r\n\x05speed\x18\x04 \x01(\x05\x12\x14\n\x0cis_commander\x18\x05 \x01(\x08\"M\n\x0cmissile_info\x12\x0c\n\x04m_id\x18\x01 \x01(\x05\x12\t\n\x01x\x18\x02 \x01(\x05\x12\t\n\x01y\x18\x03 \x01(\x05\x12\t\n\x01t\x18\x04 \x01(\x05\x12\x0e\n\x06m_type\x18\x05 \x01(\x05\"K\n\x07missile\x12\x0c\n\x04m_id\x18\x01 \x01(\x05\x12\t\n\x01x\x18\x02 \x01(\x05\x12\t\n\x01y\x18\x03 \x01(\x05\x12\x0c\n\x04time\x18\x04 \x01(\x05\x12\x0e\n\x06m_type\x18\x05 \x01(\t\"\x17\n\x06status\x12\r\n\x05query\x18\x01 \x01(\t\"$\n\x08hit_info\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04\x66lag\x18\x02 \x01(\x08\":\n\x14\x41live_soldier_values\x12\"\n\x06values\x18\x01 \x03(\x0b\x32\x12.game.soldier_info\"9\n\x13\x44\x65\x61\x64_soldier_values\x12\"\n\x06values\x18\x01 \x03(\x0b\x32\x12.game.soldier_info\".\n\x08position\x12\x0c\n\x04s_id\x18\x01 \x01(\x05\x12\t\n\x01x\x18\x02 \x01(\x05\x12\t\n\x01y\x18\x03 \x01(\x05\x32\xb4\x04\n\x04Game\x12\x32\n\x10Join_Battlefield\x12\x12.game.soldier_info\x1a\n.game.void\x12\x35\n\x13missile_approaching\x12\x12.game.missile_info\x1a\n.game.void\x12&\n\nstatus_all\x12\x0c.game.status\x1a\n.game.void\x12%\n\x07was_hit\x12\x0e.game.hit_info\x1a\n.game.void\x12;\n\x11get_alive_soldier\x12\n.game.void\x1a\x1a.game.Alive_soldier_values\x12\x39\n\x10get_dead_soldier\x12\n.game.void\x1a\x19.game.Dead_soldier_values\x12\x39\n\x17get_missile_coordinates\x12\n.game.void\x1a\x12.game.missile_info\x12*\n\x0eget_status_msg\x12\n.game.void\x1a\x0c.game.status\x12.\n\x10send_current_pos\x12\x0e.game.position\x1a\n.game.void\x12-\n\x13\x65lect_new_commander\x12\n.game.void\x1a\n.game.void\x12\x34\n\x12get_commander_info\x12\n.game.void\x1a\x12.game.soldier_infob\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -24,21 +24,21 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['_VOID']._serialized_start=20
   _globals['_VOID']._serialized_end=26
   _globals['_SOLDIER_INFO']._serialized_start=28
-  _globals['_SOLDIER_INFO']._serialized_end=91
-  _globals['_MISSILE_INFO']._serialized_start=93
-  _globals['_MISSILE_INFO']._serialized_end=173
-  _globals['_MISSILE']._serialized_start=175
-  _globals['_MISSILE']._serialized_end=250
-  _globals['_STATUS']._serialized_start=252
-  _globals['_STATUS']._serialized_end=275
-  _globals['_HIT_INFO']._serialized_start=277
-  _globals['_HIT_INFO']._serialized_end=313
-  _globals['_POSITIONS']._serialized_start=315
-  _globals['_POSITIONS']._serialized_end=360
-  _globals['_SOLDIER_ID_POS']._serialized_start=362
-  _globals['_SOLDIER_ID_POS']._serialized_end=435
-  _globals['_ALIVE_SOLDIER_VALUES']._serialized_start=437
-  _globals['_ALIVE_SOLDIER_VALUES']._serialized_end=497
-  _globals['_GAME']._serialized_start=500
-  _globals['_GAME']._serialized_end=770
+  _globals['_SOLDIER_INFO']._serialized_end=113
+  _globals['_MISSILE_INFO']._serialized_start=115
+  _globals['_MISSILE_INFO']._serialized_end=192
+  _globals['_MISSILE']._serialized_start=194
+  _globals['_MISSILE']._serialized_end=269
+  _globals['_STATUS']._serialized_start=271
+  _globals['_STATUS']._serialized_end=294
+  _globals['_HIT_INFO']._serialized_start=296
+  _globals['_HIT_INFO']._serialized_end=332
+  _globals['_ALIVE_SOLDIER_VALUES']._serialized_start=334
+  _globals['_ALIVE_SOLDIER_VALUES']._serialized_end=392
+  _globals['_DEAD_SOLDIER_VALUES']._serialized_start=394
+  _globals['_DEAD_SOLDIER_VALUES']._serialized_end=451
+  _globals['_POSITION']._serialized_start=453
+  _globals['_POSITION']._serialized_end=499
+  _globals['_GAME']._serialized_start=502
+  _globals['_GAME']._serialized_end=1066
 # @@protoc_insertion_point(module_scope)

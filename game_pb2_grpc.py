@@ -14,20 +14,20 @@ class GameStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Join_Battlefield = channel.stream_stream(
+        self.Join_Battlefield = channel.unary_unary(
                 '/game.Game/Join_Battlefield',
                 request_serializer=game__pb2.soldier_info.SerializeToString,
-                response_deserializer=game__pb2.missile.FromString,
+                response_deserializer=game__pb2.void.FromString,
                 )
         self.missile_approaching = channel.unary_unary(
                 '/game.Game/missile_approaching',
                 request_serializer=game__pb2.missile_info.SerializeToString,
-                response_deserializer=game__pb2.missile_info.FromString,
+                response_deserializer=game__pb2.void.FromString,
                 )
         self.status_all = channel.unary_unary(
                 '/game.Game/status_all',
                 request_serializer=game__pb2.status.SerializeToString,
-                response_deserializer=game__pb2.status.FromString,
+                response_deserializer=game__pb2.void.FromString,
                 )
         self.was_hit = channel.unary_unary(
                 '/game.Game/was_hit',
@@ -39,12 +39,42 @@ class GameStub(object):
                 request_serializer=game__pb2.void.SerializeToString,
                 response_deserializer=game__pb2.Alive_soldier_values.FromString,
                 )
+        self.get_dead_soldier = channel.unary_unary(
+                '/game.Game/get_dead_soldier',
+                request_serializer=game__pb2.void.SerializeToString,
+                response_deserializer=game__pb2.Dead_soldier_values.FromString,
+                )
+        self.get_missile_coordinates = channel.unary_unary(
+                '/game.Game/get_missile_coordinates',
+                request_serializer=game__pb2.void.SerializeToString,
+                response_deserializer=game__pb2.missile_info.FromString,
+                )
+        self.get_status_msg = channel.unary_unary(
+                '/game.Game/get_status_msg',
+                request_serializer=game__pb2.void.SerializeToString,
+                response_deserializer=game__pb2.status.FromString,
+                )
+        self.send_current_pos = channel.unary_unary(
+                '/game.Game/send_current_pos',
+                request_serializer=game__pb2.position.SerializeToString,
+                response_deserializer=game__pb2.void.FromString,
+                )
+        self.elect_new_commander = channel.unary_unary(
+                '/game.Game/elect_new_commander',
+                request_serializer=game__pb2.void.SerializeToString,
+                response_deserializer=game__pb2.void.FromString,
+                )
+        self.get_commander_info = channel.unary_unary(
+                '/game.Game/get_commander_info',
+                request_serializer=game__pb2.void.SerializeToString,
+                response_deserializer=game__pb2.soldier_info.FromString,
+                )
 
 
 class GameServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def Join_Battlefield(self, request_iterator, context):
+    def Join_Battlefield(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -74,23 +104,59 @@ class GameServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def get_dead_soldier(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def get_missile_coordinates(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def get_status_msg(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def send_current_pos(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def elect_new_commander(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def get_commander_info(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_GameServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Join_Battlefield': grpc.stream_stream_rpc_method_handler(
+            'Join_Battlefield': grpc.unary_unary_rpc_method_handler(
                     servicer.Join_Battlefield,
                     request_deserializer=game__pb2.soldier_info.FromString,
-                    response_serializer=game__pb2.missile.SerializeToString,
+                    response_serializer=game__pb2.void.SerializeToString,
             ),
             'missile_approaching': grpc.unary_unary_rpc_method_handler(
                     servicer.missile_approaching,
                     request_deserializer=game__pb2.missile_info.FromString,
-                    response_serializer=game__pb2.missile_info.SerializeToString,
+                    response_serializer=game__pb2.void.SerializeToString,
             ),
             'status_all': grpc.unary_unary_rpc_method_handler(
                     servicer.status_all,
                     request_deserializer=game__pb2.status.FromString,
-                    response_serializer=game__pb2.status.SerializeToString,
+                    response_serializer=game__pb2.void.SerializeToString,
             ),
             'was_hit': grpc.unary_unary_rpc_method_handler(
                     servicer.was_hit,
@@ -101,6 +167,36 @@ def add_GameServicer_to_server(servicer, server):
                     servicer.get_alive_soldier,
                     request_deserializer=game__pb2.void.FromString,
                     response_serializer=game__pb2.Alive_soldier_values.SerializeToString,
+            ),
+            'get_dead_soldier': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_dead_soldier,
+                    request_deserializer=game__pb2.void.FromString,
+                    response_serializer=game__pb2.Dead_soldier_values.SerializeToString,
+            ),
+            'get_missile_coordinates': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_missile_coordinates,
+                    request_deserializer=game__pb2.void.FromString,
+                    response_serializer=game__pb2.missile_info.SerializeToString,
+            ),
+            'get_status_msg': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_status_msg,
+                    request_deserializer=game__pb2.void.FromString,
+                    response_serializer=game__pb2.status.SerializeToString,
+            ),
+            'send_current_pos': grpc.unary_unary_rpc_method_handler(
+                    servicer.send_current_pos,
+                    request_deserializer=game__pb2.position.FromString,
+                    response_serializer=game__pb2.void.SerializeToString,
+            ),
+            'elect_new_commander': grpc.unary_unary_rpc_method_handler(
+                    servicer.elect_new_commander,
+                    request_deserializer=game__pb2.void.FromString,
+                    response_serializer=game__pb2.void.SerializeToString,
+            ),
+            'get_commander_info': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_commander_info,
+                    request_deserializer=game__pb2.void.FromString,
+                    response_serializer=game__pb2.soldier_info.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -113,7 +209,7 @@ class Game(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Join_Battlefield(request_iterator,
+    def Join_Battlefield(request,
             target,
             options=(),
             channel_credentials=None,
@@ -123,9 +219,9 @@ class Game(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/game.Game/Join_Battlefield',
+        return grpc.experimental.unary_unary(request, target, '/game.Game/Join_Battlefield',
             game__pb2.soldier_info.SerializeToString,
-            game__pb2.missile.FromString,
+            game__pb2.void.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -142,7 +238,7 @@ class Game(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/game.Game/missile_approaching',
             game__pb2.missile_info.SerializeToString,
-            game__pb2.missile_info.FromString,
+            game__pb2.void.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -159,7 +255,7 @@ class Game(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/game.Game/status_all',
             game__pb2.status.SerializeToString,
-            game__pb2.status.FromString,
+            game__pb2.void.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -194,5 +290,107 @@ class Game(object):
         return grpc.experimental.unary_unary(request, target, '/game.Game/get_alive_soldier',
             game__pb2.void.SerializeToString,
             game__pb2.Alive_soldier_values.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_dead_soldier(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/game.Game/get_dead_soldier',
+            game__pb2.void.SerializeToString,
+            game__pb2.Dead_soldier_values.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_missile_coordinates(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/game.Game/get_missile_coordinates',
+            game__pb2.void.SerializeToString,
+            game__pb2.missile_info.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_status_msg(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/game.Game/get_status_msg',
+            game__pb2.void.SerializeToString,
+            game__pb2.status.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def send_current_pos(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/game.Game/send_current_pos',
+            game__pb2.position.SerializeToString,
+            game__pb2.void.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def elect_new_commander(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/game.Game/elect_new_commander',
+            game__pb2.void.SerializeToString,
+            game__pb2.void.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_commander_info(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/game.Game/get_commander_info',
+            game__pb2.void.SerializeToString,
+            game__pb2.soldier_info.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
