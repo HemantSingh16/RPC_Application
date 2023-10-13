@@ -143,7 +143,28 @@ class GameServicer(game_pb2_grpc.GameServicer):
         return void
     
     def was_hit(self, request, context):
-        pass
+        global current_live
+        global was_hit_waiting
+        id=request.id
+        flag=request.flag
+        
+        with lock:
+            was_hit_waiting +=1
+            for alive_soldiers in self.soldiers:
+                if alive_soldiers["id"]==id:
+                    if not flag:
+                        self.soldiers.remove(alive_soldiers)
+                        self.dead_soldiers.append(alive_soldiers)
+        while was_hit_waiting < current_live:
+            pass
+        time.sleep(1)
+
+        with lock:
+            if was_hit_waiting==current_live:
+                was_hit_waiting=0
+        
+        void=game_pb2.void()
+        return void
     
     def get_alive_soldier(self, request, context):
         soldier_info=[]

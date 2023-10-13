@@ -85,8 +85,58 @@ class Commander(Soldier):
     # Generating the print layout on screen in output
     
     def print_layout(self,soldier_list, commander_pos, missile_list,all_missile_affected_coord, N):
+	print()
+        print("Soldier Id : Green")
+        print("Commander Id : Blue")
+        print("M is Missile")
+        print()
+        dict = {}
+        if commander_pos != ():
+            id = commander_pos[2]
+        else:
+            id = -1
+        for item in soldier_list:
+            dict[(item[0], item[1])] = item[2]
 
-        pass
+        flag = 0
+        for row in range(N):
+            row_str = ""
+            for col in range(N):
+                flag = 0
+                if (row, col) in dict.keys():
+                    row_str += Fore.GREEN + str(dict[(row, col)]) + Fore.RESET
+                    if (row, col,id) == commander_pos or [row, col] in missile_list:
+                        row_str += ""
+                    else:
+                        row_str +=  "     "
+                    flag = 1
+                if (row, col, id) == commander_pos:
+                    row_str += Fore.BLUE + str(id) + Fore.RESET
+                    if [row, col] not in missile_list and (row, col) in dict.keys():
+                        row_str +=  "    "
+                    elif  (row, col) not in dict.keys() and [row, col] not in missile_list:
+                        row_str +=  "     "
+                    elif [row, col] in missile_list:
+                        row_str += ""
+                    flag = 1
+                if [row, col] in missile_list:
+                    row_str += Fore.RED + "M" + Fore.RESET
+                    if (row, col) not in dict.keys() and (row, col,id) != commander_pos:
+                        row_str += "     "
+                    elif (row, col) in dict.keys() and (row, col) == commander_pos:
+                        row_str += "   "
+                    elif (row, col) in  dict.keys() and (row, col) != commander_pos or (row, col) not in  dict.keys() and (row, col,id) == commander_pos:
+                        row_str += "    "
+                    flag = 1
+                if [row, col] in all_missile_affected_coord and (row, col) not in  dict.keys() and (row, col,id) != commander_pos and [row, col] not in missile_list :
+                    row_str += Fore.RED + "-" + Fore.RESET + "     "
+                    flag = 1
+                if flag == 0:
+                    row_str +=  "-" + "     "
+            print(row_str)
+            print()
+        
+        deinit()
 
 # All the processes created from main process will execute this function
 
